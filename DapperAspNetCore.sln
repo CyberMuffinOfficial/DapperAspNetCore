@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32616.157
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DapperAspNetCore", "DapperAspNetCore.csproj", "{7D02BBAA-E732-4A69-A7E2-E6470B04FDE5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{365F9A82-874F-4709-97BF-E3002DA6AEDF}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7D02BBAA-E732-4A69-A7E2-E6470B04FDE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D02BBAA-E732-4A69-A7E2-E6470B04FDE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D02BBAA-E732-4A69-A7E2-E6470B04FDE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D02BBAA-E732-4A69-A7E2-E6470B04FDE5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AEB8DE17-D04F-4C65-9106-2A369E70CCE4}
+	EndGlobalSection
+EndGlobal
