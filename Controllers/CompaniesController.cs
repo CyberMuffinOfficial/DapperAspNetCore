@@ -94,4 +94,22 @@ public class CompaniesController : ControllerBase
             return StatusCode(500, ex.Message);
         }
     }
+
+    // Stored procedure endpoint
+    [HttpGet("ByEmployeeId/{id}")]
+    public async Task<IActionResult> GetCompanyForEmployee(Guid id)
+    {
+        try
+        {
+            var company = await _companyRepo.GetCompanyByEmployeeId(id);
+            if (company == null)
+                return NotFound();
+            return Ok(company);
+        }
+        catch (Exception ex)
+        {
+            //log error
+            return StatusCode(500, ex.Message);
+        }
+    }
 }

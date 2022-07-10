@@ -98,6 +98,38 @@ public class CompanyRepository : ICompanyRepository
             await connection.ExecuteAsync(query, new { id });
         }
     }
+
+
+    // NOW ADDING STORED PROCEDURES
+    public async Task<Company> GetCompanyByEmployeeId(Guid id)
+    {
+        var procedureName = "ShowCompanyForProvidedEmployeeId";
+        var parameters = new DynamicParameters();
+        parameters.Add("Id", id, DbType.Int32, ParameterDirection.Input);
+        using (var connection = _context.CreateConnection())
+        {
+            var company = await connection.QueryFirstOrDefaultAsync<Company>
+                (procedureName, parameters, commandType: CommandType.StoredProcedure);
+            return company;
+        }
+    }
+
+    /* 
+     this is the stored procedure. need to create in DB
+USE [DapperDemo]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[ShowCompanyForProvidedEmployeeId] @Id Guid
+AS
+SELECT c.Id, c.Name, c.Address, c.Country
+FROM Companies c JOIN Employees e ON c.Id = e.CompanyId
+Where e.Id = @Id
+GO
+     * */
+
 }
 
 /*

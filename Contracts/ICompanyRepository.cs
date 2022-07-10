@@ -14,4 +14,7 @@ public interface ICompanyRepository
     public Task UpdateCompany(Guid id, CompanyForUpdateDto company);
 
     public Task DeleteCompany(Guid id);
+
+    // NOW ADDING STORED PROCEDURES
+    public Task<Company> GetCompanyByEmployeeId(Guid id);
 }
