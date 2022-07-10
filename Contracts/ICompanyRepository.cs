@@ -17,4 +17,11 @@ public interface ICompanyRepository
 
     // NOW ADDING STORED PROCEDURES
     public Task<Company> GetCompanyByEmployeeId(Guid id);
+
+    //Executing Multiple SQL Statements with a Single Query
+    public Task<Company> GetCompanyEmployeesMultipleResults(Guid id);
+
+    // Multiple Mapping
+    public Task<List<Company>> GetCompaniesEmployeesMultipleMapping();
+
 }

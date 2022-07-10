@@ -112,4 +112,38 @@ public class CompaniesController : ControllerBase
             return StatusCode(500, ex.Message);
         }
     }
+
+    // Executing Multiple SQL Statements with a Single Query
+    [HttpGet("{id}/MultipleResult")]
+    public async Task<IActionResult> GetCompanyEmployeesMultipleResult(int id)
+    {
+        try
+        {
+            var company = await _companyRepo.GetCompanyEmployeesMultipleResults(id);
+            if (company == null)
+                return NotFound();
+            return Ok(company);
+        }
+        catch (Exception ex)
+        {
+            //log error
+            return StatusCode(500, ex.Message);
+        }
+    }
+
+    // Multiple Mapping
+    [HttpGet("MultipleMapping")]
+    public async Task<IActionResult> GetCompaniesEmployeesMultipleMapping()
+    {
+        try
+        {
+            var company = await _companyRepo.GetCompaniesEmployeesMultipleMapping();
+            return Ok(company);
+        }
+        catch (Exception ex)
+        {
+            //log error
+            return StatusCode(500, ex.Message);
+        }
+    }
 }
