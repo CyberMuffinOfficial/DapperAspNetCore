@@ -15,8 +15,8 @@ public class DapperContext
     }
 
     public IDbConnection CreateConnection()
-        => new SqlConnection(_configuration.GetConnectionString("SqlConnection"));
+        => new SqlConnection(_configuration.GetConnectionString("SqlConnectionForDapper"));
 
     public IDbConnection CreateMasterConnection()
-        => new SqlConnection(_configuration.GetConnectionString("MasterConnection"));
+        => new SqlConnection(_configuration.GetConnectionString("MasterConnectionForDapper"));
 }

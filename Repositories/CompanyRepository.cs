@@ -1,6 +1,8 @@
-﻿using Dapper;
+﻿using System.Data;
+using Dapper;
 using DapperAspNetCore.Context;
 using DapperAspNetCore.Contracts;
+using DapperAspNetCore.Dto;
 using DapperAspNetCore.Entities;
 
 namespace DapperAspNetCore.Repositories;
@@ -16,7 +18,7 @@ public class CompanyRepository : ICompanyRepository
     public async Task<IEnumerable<Company>> GetCompanies()
     {
         //var query = "SELECT * FROM Companies";
-         var query = "SELECT Id, Name, Address, Country FROM Companies";
+        var query = "SELECT Id, Name, Address, Country FROM Companies";
         using (var connection = _context.CreateConnection())
         {
             var companies = await connection.QueryAsync<Company>(query);
@@ -24,13 +26,76 @@ public class CompanyRepository : ICompanyRepository
         }
     }
 
-    public async Task<Company> GetCompany(int id)
+    public async Task<Company> GetCompany(Guid id)
     {
         var query = "SELECT * FROM Companies WHERE Id = @Id";
         using (var connection = _context.CreateConnection())
         {
             var company = await connection.QuerySingleOrDefaultAsync<Company>(query, new { id });
             return company;
+        }
+    }
+
+    //public async Task CreateCompany(CompanyForCreationDto company)
+    //{
+    //    var query = "INSERT INTO Companies (Name, Address, Country) VALUES (@Name, @Address, @Country)";
+    //    var parameters = new DynamicParameters();
+    //    parameters.Add("Name", company.Name, DbType.String);
+    //    parameters.Add("Address", company.Address, DbType.String);
+    //    parameters.Add("Country", company.Country, DbType.String);
+    //    using (var connection = _context.CreateConnection())
+    //    {
+    //        await connection.ExecuteAsync(query, parameters);
+    //    }
+    //}
+
+    public async Task<Company> CreateCompany(CompanyForCreationDto company)
+    {
+        var query = "INSERT INTO Companies (Id, Name, Address, Country) OUTPUT inserted.Id VALUES (@Id, @Name, @Address, @Country)"; // had to change this cos we use Guid ID instead of int. OUTPUT inserted.Id returns the inserted Id
+
+
+
+        var parameters = new DynamicParameters();
+        parameters.Add("Id", Guid.NewGuid(), DbType.Guid);
+        parameters.Add("Name", company.Name, DbType.String);
+        parameters.Add("Address", company.Address, DbType.String);
+        parameters.Add("Country", company.Country, DbType.String);
+
+        using (var connection = _context.CreateConnection())
+        {
+            var id = await connection.QuerySingleOrDefaultAsync<Guid>(query, parameters);
+
+            var createdCompany = new Company
+            {
+                Id = id,
+                Name = company.Name,
+                Address = company.Address,
+                Country = company.Country
+            };
+
+            return createdCompany;
+        }
+    }
+
+    public async Task UpdateCompany(Guid id, CompanyForUpdateDto company)
+    {
+        var query = "UPDATE Companies SET Name = @Name, Address = @Address, Country = @Country WHERE Id = @Id";
+        var parameters = new DynamicParameters();
+        parameters.Add("Id", id, DbType.Guid);
+        parameters.Add("Name", company.Name, DbType.String);
+        parameters.Add("Address", company.Address, DbType.String);
+        parameters.Add("Country", company.Country, DbType.String);
+        using (var connection = _context.CreateConnection())
+        {
+            await connection.ExecuteAsync(query, parameters);
+        }
+    }
+    public async Task DeleteCompany(Guid id)
+    {
+        var query = "DELETE FROM Companies WHERE Id = @Id";
+        using (var connection = _context.CreateConnection())
+        {
+            await connection.ExecuteAsync(query, new { id });
         }
     }
 }
