@@ -15,6 +15,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DapperAspNetCore.Contracts;
+using DapperAspNetCore.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +26,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddSingleton<DapperContext>();
 builder.Services.AddSingleton<Database>();
+builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 
 builder.Services.AddLogging(c => c.AddFluentMigratorConsole())
         .AddFluentMigratorCore()
